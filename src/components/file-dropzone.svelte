@@ -1,31 +1,31 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  import { fromEvent } from 'file-selector';
+  import { createEventDispatcher } from "svelte";
+  import { fromEvent } from "file-selector";
 
   const dispatch = createEventDispatcher();
 
   let isOverDropZone = false;
 
-  async function handleDrop (event) {
+  async function handleDrop(event) {
     event.preventDefault();
     isOverDropZone = false;
 
     const files = await fromEvent(event);
-    dispatch('filesadded', files);
+    dispatch("filesadded", files);
   }
 
-  async function handleFileChange (event) {
+  async function handleFileChange(event) {
     event.preventDefault();
     const files = await fromEvent(event);
-    dispatch('filesadded', files);
+    dispatch("filesadded", files);
   }
 
-  function handleDragOver (event) {
+  function handleDragOver(event) {
     event.preventDefault();
     isOverDropZone = true;
   }
 
-  function handleDragLeave () {
+  function handleDragLeave() {
     isOverDropZone = false;
   }
 </script>
@@ -75,10 +75,8 @@
   on:dragover={handleDragOver}
   on:dragleave={handleDragLeave}>
   <div class="dropzone__content input_note">
-    <strong>Drop images here</strong> or click to open a file dialog
+    <strong>Drop images here</strong>
+    or click to open a file dialog
   </div>
-  <input
-    class="file-input"
-    type="file"
-    on:change={handleFileChange} />
+  <input class="file-input" type="file" on:change={handleFileChange} />
 </div>

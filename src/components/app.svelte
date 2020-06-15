@@ -1,22 +1,22 @@
 <script>
-  import Upload from './upload.svelte';
-  import FileDropzone from './file-dropzone.svelte';
+  import Upload from "./upload.svelte";
+  import FileDropzone from "./file-dropzone.svelte";
 
-  import uploadEmoji from '../upload-emoji.js';
+  import uploadEmoji from "../upload-emoji.js";
 
-  const SET_ICON_URL = chrome.runtime.getURL('images/icon_128.png');
+  const SET_ICON_URL = chrome.runtime.getURL("images/icon_128.png");
 
   let uploads = [];
   let uploadsStatusById = {};
 
-  function uploadFiles (files) {
+  function uploadFiles(files) {
     files.forEach(file => {
-      const id = uploadEmoji(file, (error) => {
+      const id = uploadEmoji(file, error => {
         if (error) {
           uploadsStatusById = {
             ...uploadsStatusById,
             [id]: {
-              type: 'error',
+              type: "error",
               message: error.message || error
             }
           };
@@ -24,8 +24,8 @@
           uploadsStatusById = {
             ...uploadsStatusById,
             [id]: {
-              type: 'success',
-              message: 'Successfully Uploaded.'
+              type: "success",
+              message: "Successfully Uploaded."
             }
           };
         }
@@ -33,18 +33,21 @@
       uploadsStatusById = {
         ...uploadsStatusById,
         [id]: {
-          type: 'uploading',
-          message: 'Uploading...'
+          type: "uploading",
+          message: "Uploading..."
         }
       };
-      uploads = [...uploads, {
-        file,
-        id
-      }];
+      uploads = [
+        ...uploads,
+        {
+          file,
+          id
+        }
+      ];
     });
   }
 
-  function handleFilesAdded (event) {
+  function handleFilesAdded(event) {
     const files = event.detail;
 
     uploadFiles(files);
@@ -67,7 +70,7 @@
   }
 
   .input-note {
-    font-size: .9rem;
+    font-size: 0.9rem;
     line-height: 1.25rem;
     color: var(--color-text-gray);
   }
@@ -81,15 +84,25 @@
 
 <div class="neutral-face-emoji-tools">
   <h4 class="heading">
-    <img class="icon heading" src="{SET_ICON_URL}" alt="" />
+    <img class="icon heading" src={SET_ICON_URL} alt="" />
     <span class="text">Bulk Emoji Uploader</span>
   </h4>
-  <p class="subheading">Drag and drop images into the area below. Any images dropped there will be automatically uploaded using their filename as the emoji name.</p>
-  <p class="input-note">Example: <span class="normal">"ditto.gif" will be added as "ditto"</span></p>
+  <p class="subheading">
+    Drag and drop images into the area below. Any images dropped there will be
+    automatically uploaded using their filename as the emoji name. When
+    uploading more than 20 emojis, please note that there is a limit of 20
+    emojis per minute from Slack. If your upload seems stuck, wait a minute and
+    check again.
+  </p>
+  <p class="input-note">
+    Example:
+    <span class="normal">"ditto.gif" will be added as "ditto"</span>
+  </p>
   <FileDropzone on:filesadded={handleFilesAdded} />
   <ul class="uploads">
+    <li>Estimated Time to upload: {uploads.length / 20} minutes.</li>
     {#each uploads as upload (upload.id)}
-      <Upload upload={upload} status={uploadsStatusById[upload.id]} />
+      <Upload {upload} status={uploadsStatusById[upload.id]} />
     {/each}
   </ul>
 </div>

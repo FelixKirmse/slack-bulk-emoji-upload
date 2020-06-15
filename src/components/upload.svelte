@@ -78,9 +78,9 @@
   <img class="preview" src={filePreview} alt="" />
   <span class="filename">{upload.file.name}</span>
   <span class="status">
-    <i class="icon uploading ts_icon ts_icon_spinner"></i>
-    <i class="icon error ts_icon ts_icon_warning"></i>
-    <i class="icon success ts_icon ts_icon_check_circle_o"></i>
+    <i class="icon uploading ts_icon ts_icon_spinner" />
+    <i class="icon error ts_icon ts_icon_warning" />
+    <i class="icon success ts_icon ts_icon_check_circle_o" />
     <span class="text">{status.message}</span>
   </span>
 </li>

@@ -28,6 +28,8 @@ node_modules
 
 # Do not include compiled files
 dist
+*.pem
+*.crx
 
 # Do not include zip
 *.zip
